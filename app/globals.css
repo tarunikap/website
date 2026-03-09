@@ -1,26 +1,443 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Force dark mode to be class-based (selector strategy) */
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Zinc-50 */
+  --background: #fafafa;
+  /* Zinc-900 */
+  --foreground: #18181b;
+  /* Zinc-100 */
+  --sidebar-bg: #f4f4f5;
+  /* Zinc-200 */
+  --border-subtle: #e4e4e7;
+  /* Zinc-500 */
+  --muted-text: #71717a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar-bg);
+  --color-border-subtle: var(--border-subtle);
+  --color-muted-text: var(--muted-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* Dark mode overrides (applied via .dark class) */
+.dark {
+  /* Zinc-950 */
+  --background: #09090b;
+  /* Zinc-50 */
+  --foreground: #fafafa;
+  /* Zinc-950 (seamless) */
+  --sidebar-bg: #09090b;
+  /* Zinc-800 */
+  --border-subtle: #27272a;
+  /* Zinc-400 */
+  --muted-text: #a1a1aa;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Compact bunny for nav bar */
+.bunny-slide-container.compact {
+  height: auto;
+  margin-bottom: 0;
+  opacity: 1;
+  animation: none;
+  padding: 0;
+}
+
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-text);
+}
+
+/* Animations from Agentation.dev */
+/* Animations from Agentation.dev (User Provided) */
+@keyframes typeChar {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bunnySlideIn {
+  from {
+    height: 0;
+    margin-bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: 44px;
+    margin-bottom: 0.5rem;
+    opacity: 1;
+  }
+}
+
+.typed-slash {
+  display: inline-block;
+}
+
+.typed-char {
+  opacity: 0;
+  display: inline-block;
+  animation: typeChar 0.1s ease-out forwards;
+}
+
+.bunny-slide-container {
+  height: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  animation: bunnySlideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  padding-top: 8px;
+}
+
+.bunny-slide-container.skip-animation {
+  height: 44px;
+  margin-bottom: 0.5rem;
+  opacity: 1;
+  animation: none;
+}
+
+/* Entrance animations */
+@keyframes navBunnyEnterEar {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes navBunnyEnterFace {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes navBunnyEnterEye {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Idle animations */
+@keyframes navLeftEarTwitch {
+
+  0%,
+  9% {
+    transform: rotate(0deg);
+  }
+
+  12% {
+    transform: rotate(-8deg);
+  }
+
+  16%,
+  34% {
+    transform: rotate(0deg);
+  }
+
+  38% {
+    transform: rotate(-12deg);
+  }
+
+  42% {
+    transform: rotate(-6deg);
+  }
+
+  48%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes navRightEarTwitch {
+
+  0%,
+  9% {
+    transform: rotate(0deg);
+  }
+
+  12% {
+    transform: rotate(6deg);
+  }
+
+  16%,
+  34% {
+    transform: rotate(0deg);
+  }
+
+  38% {
+    transform: rotate(10deg);
+  }
+
+  42% {
+    transform: rotate(4deg);
+  }
+
+  48%,
+  71% {
+    transform: rotate(0deg);
+  }
+
+  74% {
+    transform: rotate(8deg);
+  }
+
+  78%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes navLeftEyeMove {
+
+  0%,
+  8% {
+    transform: translate(0, 0);
+  }
+
+  10%,
+  18% {
+    transform: translate(1.5px, 0);
+  }
+
+  20%,
+  22% {
+    transform: translate(1.5px, 0) scaleY(0.1);
+  }
+
+  24%,
+  32% {
+    transform: translate(1.5px, 0);
+  }
+
+  35%,
+  48% {
+    transform: translate(-0.8px, -0.6px);
+  }
+
+  52%,
+  54% {
+    transform: translate(0, 0) scaleY(0.1);
+  }
+
+  56%,
+  68% {
+    transform: translate(0, 0);
+  }
+
+  72%,
+  82% {
+    transform: translate(-0.5px, 0.5px);
+  }
+
+  85%,
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes navRightEyeMove {
+
+  0%,
+  8% {
+    transform: translate(0, 0);
+  }
+
+  10%,
+  18% {
+    transform: translate(0.8px, 0);
+  }
+
+  20%,
+  22% {
+    transform: translate(0.8px, 0) scaleY(0.1);
+  }
+
+  24%,
+  32% {
+    transform: translate(0.8px, 0);
+  }
+
+  35%,
+  48% {
+    transform: translate(-1.5px, -0.6px);
+  }
+
+  52%,
+  54% {
+    transform: translate(0, 0) scaleY(0.1);
+  }
+
+  56%,
+  68% {
+    transform: translate(0, 0);
+  }
+
+  72%,
+  82% {
+    transform: translate(-1.2px, 0.5px);
+  }
+
+  85%,
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Forensic ear perk */
+@keyframes navForensicLeftEarPerk {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  15% {
+    transform: rotate(-25deg) translateY(-2px);
+  }
+
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes navForensicRightEarPerk {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  15% {
+    transform: rotate(25deg) translateY(-2px);
+  }
+
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+/* Entrance state */
+.nav-ear-left-enter {
+  opacity: 0;
+  animation: navBunnyEnterEar 0.3s ease-out 0.1s forwards, navLeftEarTwitch 5s ease-in-out 0.4s infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+
+.nav-ear-right-enter {
+  opacity: 0;
+  animation: navBunnyEnterEar 0.3s ease-out 0.15s forwards, navRightEarTwitch 5s ease-in-out 0.45s infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+
+/* Idle state (after entrance) */
+.nav-ear-left-idle {
+  animation: navLeftEarTwitch 5s ease-in-out infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+
+.nav-ear-right-idle {
+  animation: navRightEarTwitch 5s ease-in-out infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+
+/* Forensic perk state (after entrance) */
+.nav-ear-left-idle.forensic-perk {
+  animation: navForensicLeftEarPerk 0.8s ease-out, navLeftEarTwitch 5s ease-in-out 0.8s infinite;
+}
+
+.nav-ear-right-idle.forensic-perk {
+  animation: navForensicRightEarPerk 0.8s ease-out, navRightEarTwitch 5s ease-in-out 0.8s infinite;
+}
+
+.nav-face-enter {
+  opacity: 0;
+  animation: navBunnyEnterFace 0.3s ease-out 0.25s forwards;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nav-eye-left-enter {
+  opacity: 0;
+  animation: navBunnyEnterEye 0.3s ease-out 0.35s forwards, navLeftEyeMove 5s ease-in-out 0.65s infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nav-eye-right-enter {
+  opacity: 0;
+  animation: navBunnyEnterEye 0.3s ease-out 0.4s forwards, navRightEyeMove 5s ease-in-out 0.7s infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nav-eye-left-idle {
+  animation: navLeftEyeMove 5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nav-eye-right-idle {
+  animation: navRightEyeMove 5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nav-x-eye {
+  transition: opacity 0.2s ease-out;
 }
